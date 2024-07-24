@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI-AquaGrow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .header {
+            background: rgba(0, 0, 0, 0.5); 
+            padding: 10px 20px; 
+            color: white;
+            text-align: center; 
+            width: 100%; 
+            
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 450px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0, 128, 0, 0.2);
+            border: 1px solid green;
+            border-radius: 5px;
+            display: none;
+            color: #007BFF;
+        }
+    
+        #background-container {
+            width: 90%;  
+            height:130vh;  
+            background-image: url({{url_for('static', filename='background.jpeg')}});  
+            background-size: cover;  
+            background-position: center;  
+            transition: background-image 0.5s ease-in-out;  
+            background-attachment: fixed;  
+            background-repeat: no-repeat;  
+        }
+
+        .header, .footer {
+            text-align: center; 
+        }
+
+        .form-group {
+            margin-bottom: 10px;  
+        }
+
+        .submit-btn {
+            background-color: #4CAF50; 
+            color: white;  
+            padding: 10px 20px;  
+            border: none; 
+            border-radius: 5px;
+            cursor: pointer;  
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;  
+        }
+        .contact-us {
+            position: relative;  
+            display: inline-block;
+        }
+        .contact-button {
+            background-color: grey;
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: large;
+            cursor: pointer;
+            border-radius: 5px;  
+        }
+        .dropdown-content {
+            display: none;  
+            position: absolute; 
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            right: 0; 
+            border-radius: 5px;  
+            overflow: hidden;  
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 20px auto;  
+            margin-bottom: 160px;  
+        }
+        .container2 {
+            background-color: rgba(255, 255, 255, 0.75);  
+            padding: 20px;  
+            border-radius: 10px;  
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
+            width: 100%;  
+            max-width: none;  
+            margin: 160px 0;  
+            text-align: left;  
+            font-family: Arial, sans-serif;  
+            color: #333;  
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            color: white;
+            text-align: center;
+        }
+        
+
+
+    </style>
+</head>
+<body>
+
+    
+    <div id="background-container">
+        <div class="header">
+            <h1>Predict Your Profitable Fish</h1>
+            <p>Designed by "AI-AquaGrow" group of "Depertment Of Computer Science", Ramakrishna Mission Vivekananda Educational and Research Institute</p>
+            <div class="contact-us">
+                <button class="contact-button">Contact Us &#9660;</button>
+                <div class="dropdown-content">
+                    <a href="mailto:beraamit8171@gmail.com">beraamit8171@gmail.com</a>
+                    <a href="mailto:ghoraipragyan@gmail.com">ghoraipragyan@gmail.com</a>
+                </div>
+            </div>
+        </div>
+        <form>
+            <div class="container">
+                <h2></h2>
+                <div class="form-group">
+                    <label for="ph">Enter the pH:</label>
+                    <input type="number" id="ph" name="ph" min="5" max="10" step="0.1" required>                
+                </div>
+                <div class="form-group">
+                    <label for="temparature">Enter the Temperature:</label>
+                    <input type="number" id="temparature" name="temparature" min="4" max="40" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="turbidity">Enter the Turbidity:</label>
+                    <input type="number" id="turbidity" name="turbidity" min="1" max="20" step="0.01" required>
+                </div>
+                <button type="submit" class="submit-btn">Recommended Fish</button>
+                
+                <div class="message" id="response-message"></div>
+                <a id="dynamic-hyperlink" style="display: none;"></a>
+            
+                
+            </div>
+        </form>
+        <div class="container2">
+            <p>In this Fish Recommendation System, the dataset is used from 
+                <a href="https://data.mendeley.com/datasets/hxd382z2fg/2">https://data.mendeley.com/datasets/hxd382z2fg/2</a> </p>
+            <p>Random Forest Classifier model is used for prediction. It gives the accuracy 98.51%</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Fish Recommendation System. All rights reserved. Made By "AI-AquaGrow"</p>
+            <p>Team Members: Amit Bera, Pragyan Ghorai</p>
+        </div>
+    </div>
+
+    <script>
+        const contactButton = document.querySelector('.contact-button');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        contactButton.addEventListener('click', () => {
+            
+            if (dropdownContent.style.display === 'none' || !dropdownContent.style.display) {
+                dropdownContent.style.display = 'block';
+            } else {
+                dropdownContent.style.display = 'none';
+            }
+        });
+
+        
+        document.addEventListener('click', (e) => {
+            if (!contactButton.contains(e.target) && !dropdownContent.contains(e.target)) {
+                dropdownContent.style.display = 'none';
+            }
+        });
+    </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const responseMessage = document.querySelector('#response-message');
+
+        const imageMap = {
+            "Carpio": "{{ url_for('static', filename='carpio.jpeg') }}",
+            "Katla": "{{ url_for('static', filename='katla.jpg') }}",
+            "Koi": "{{ url_for('static', filename='koi.jpg') }}",
+            "Magur": "{{ url_for('static', filename='magur.jpg') }}",
+            "Pangas": "{{ url_for('static', filename='pangas.jpg') }}",
+            "Prawn": "{{ url_for('static', filename='prawns.jpg') }}",
+            "Rui": "{{ url_for('static', filename='rui.jpg') }}",
+            "Shrimp": "{{ url_for('static', filename='shrimp.jpg') }}",
+            "SilverCup": "{{ url_for('static', filename='silvercup.jpg') }}",
+            "Sing": "{{ url_for('static', filename='sing.png') }}",
+            "Tilapia": "{{ url_for('static', filename='tilapia.jpg') }}"
+        };
+
+        const linkMap = {
+            "Carpio": "https://en.wikipedia.org/wiki/Eurasian_carp",
+            "Katla": "https://en.wikipedia.org/wiki/Catla",
+            "Koi": "https://shop-bd.com/shop/raw-fish/%E0%A6%A6%E0%A7%87%E0%A6%B6%E0%A6%BF-%E0%A6%95%E0%A7%88/",
+            "Magur": "https://en.wikipedia.org/wiki/Clarias_magur",
+            "Pangas": "https://en.wikipedia.org/wiki/Pangasius_pangasius",
+            "Prawn": "https://en.wikipedia.org/wiki/Prawn",
+            "Rui": "https://en.wikipedia.org/wiki/Rohu",
+            "Shrimp": "https://en.wikipedia.org/wiki/Shrimpfish",
+            "SilverCup": "https://en.wikipedia.org/wiki/Silver_carp",
+            "Sing": "https://gangchill.com/products/deshi-shing",
+            "Tilapia": "https://en.wikipedia.org/wiki/Tilapia"
+        };
+
+        function setBackground(key) {
+            const container = document.getElementById("background-container");
+            if (container && imageMap[key]) {  // Check for the element and a valid image key
+                container.style.backgroundImage = `url(${imageMap[key]})`;
+            }
+        }
+
+        function setDynamicLink(key) {
+            const dynamicLink = document.getElementById("dynamic-hyperlink");
+            if (dynamicLink && linkMap[key]) {  // Check for the element and a valid link key
+                dynamicLink.href = linkMap[key];
+                dynamicLink.textContent = `Learn more about ${key}`;
+                dynamicLink.style.display = "inline";
+            }
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                responseMessage.textContent = 'Your profitable fish is : ' + data.message;
+                responseMessage.style.display = 'block';
+                if (data.message) {
+                    setBackground(data.message);
+                    setDynamicLink(data.message);
+                }
+            })
+            .catch(error => {
+                responseMessage.textContent = 'An error occurred. Please try again.';
+                responseMessage.style.display = 'block';
+                console.error("Fetch error:", error);
+            });
+        });
+    });
+</script>
+</body>
+
+</html>
